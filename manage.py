@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import os
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
@@ -75,6 +74,15 @@ def deploy():
 
     # create self-follows for all users
     User.add_self_follows()
+
+@manager.command
+def fake():
+    from flask_migrate import upgrade
+    from app.models import Role, User
+    
+    User.generate_fake(30)
+    Post.generate_fake(200)
+    Comment.generate_fake(1000)
 
 
 if __name__ == '__main__':
