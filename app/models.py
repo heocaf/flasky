@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*- 
 from datetime import datetime
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -237,7 +238,8 @@ class User(UserMixin, db.Model):
     @property
     def followed_posts(self):
         return Post.query.join(Follow, Follow.followed_id == Post.author_id)\
-            .filter(Follow.follower_id == self.id)
+            .filter(Follow.follower_id == self.id)\
+            .filter(Follow.followed_id <> self.id)
 
     def to_json(self):
         json_user = {

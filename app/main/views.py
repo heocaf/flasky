@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*- 
 from flask import render_template, redirect, url_for, abort, flash, request,\
     current_app, make_response
 from flask_login import login_required, current_user
@@ -197,7 +198,7 @@ def followers(username):
         error_out=False)
     follows = [{'user': item.follower, 'timestamp': item.timestamp}
                for item in pagination.items]
-    return render_template('followers.html', user=user, title="Followers of",
+    return render_template('followers.html', user=user, title="追随者",
                            endpoint='.followers', pagination=pagination,
                            follows=follows)
 
@@ -214,7 +215,7 @@ def followed_by(username):
         error_out=False)
     follows = [{'user': item.followed, 'timestamp': item.timestamp}
                for item in pagination.items]
-    return render_template('followers.html', user=user, title="Followed by",
+    return render_template('followers.html', user=user, title="关注的人",
                            endpoint='.followed_by', pagination=pagination,
                            follows=follows)
 

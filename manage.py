@@ -1,4 +1,12 @@
+# -*- coding: UTF-8 -*- 
 import os
+
+#解决中文乱码问题
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
