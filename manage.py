@@ -88,10 +88,11 @@ def fake():
     from flask_migrate import upgrade
     from app.models import Role, User
     
-    User.generate_fake(30)
-    Post.generate_fake(200)
-    Comment.generate_fake(1000)
-
+    #User.generate_fake(30)
+    #Post.generate_fake(200)
+    #Comment.generate_fake(3000)
+    Follow.generate_fake(1000)
 
 if __name__ == '__main__':
     manager.run()
+    #app.run(debug=False)

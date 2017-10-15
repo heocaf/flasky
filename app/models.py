@@ -60,6 +60,28 @@ class Follow(db.Model):
                             primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+    @staticmethod
+    def generate_fake(count=1000):
+        from random import seed, randint
+        import forgery_py
+
+        seed()
+        user_count = User.query.count()
+        for i in range(count):
+            u1 = User.query.offset(randint(0, user_count - 10)).first().id
+            u2 = User.query.offset(randint(u1, user_count - 1)).first().id
+            
+            f = Follow.query.filter_by(follower_id = u1)\
+                .filter_by(followed_id = u2).first();
+
+            if f is None:
+                c = Follow(follower_id=u1,
+                        followed_id=u2,
+                        timestamp=forgery_py.date.date(True))
+                db.session.add(c)
+                db.session.commit()
+
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -315,7 +337,7 @@ class Post(db.Model):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p']
+                        'h1', 'h2', 'h3', 'p','br']
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
